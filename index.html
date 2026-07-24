@@ -1,0 +1,2485 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090205">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Arquivo de ambientação da Marvel's Terra Axial: A Fornalha, seus torneios, leis e o Ninho de Cinzas.">
+  <title>Ambientação — Marvel’s Terra Axial</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/yiuD6Ad.png">
+  <link rel="preconnect" href="https://i.imgur.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Share+Tech+Mono&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #030203;
+      --black-soft: #080507;
+      --wine: #26030d;
+      --wine-2: #4a0717;
+      --red: #ef1638;
+      --red-hot: #ff2948;
+      --silver: #d6d9dc;
+      --silver-dim: #8c9298;
+      --green: #74ffad;
+      --yellow: #ffd36a;
+      --line: rgba(239, 22, 56, .28);
+      --panel: rgba(7, 4, 6, .82);
+      --panel-strong: rgba(5, 3, 5, .94);
+      --nav-compact: 92px;
+      --nav-open: 268px;
+      --ease: cubic-bezier(.2,.78,.24,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--black); scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      overflow: hidden;
+      color: var(--silver);
+      background:
+        radial-gradient(circle at 74% 14%, rgba(130, 0, 30, .24), transparent 32%),
+        radial-gradient(circle at 13% 84%, rgba(91, 0, 23, .18), transparent 36%),
+        linear-gradient(135deg, #020102 0%, #090306 49%, #020102 100%);
+      font-family: "Rajdhani", Arial, sans-serif;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    body::before {
+      opacity: .12;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 4px),
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.045) 0 1px, transparent 1.5px);
+      background-size: auto, 5px 5px;
+      mix-blend-mode: screen;
+      animation: noiseShift .2s steps(2) infinite;
+    }
+
+    body::after {
+      box-shadow: inset 0 0 170px rgba(0,0,0,.98), inset 0 0 45px rgba(239,22,56,.08);
+    }
+
+    @keyframes noiseShift {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(1px,-1px); }
+      50% { transform: translate(-1px,1px); }
+      75% { transform: translate(1px,1px); }
+      100% { transform: translate(0,0); }
+    }
+
+    @keyframes gridDrift { to { transform: translateY(36px); } }
+    @keyframes pulseLine { 0%,100% { opacity:.25; transform:scaleX(.65); } 50% { opacity:1; transform:scaleX(1); } }
+    @keyframes flicker { 0%,100% { opacity:1; } 48% { opacity:.94; } 49% { opacity:.65; } 50% { opacity:1; } 84% { opacity:.98; } 85% { opacity:.76; } 86% { opacity:1; } }
+    @keyframes imageScan { 0% { transform: translateY(-115%); } 100% { transform: translateY(115%); } }
+    @keyframes floatTrace { 0%,100% { transform: translate3d(0,0,0) rotate(-7deg); opacity:.2; } 50% { transform: translate3d(0,-18px,0) rotate(-7deg); opacity:.55; } }
+    @keyframes enterChapter { from { opacity:0; transform:translateY(20px); filter:blur(8px); } to { opacity:1; transform:none; filter:blur(0); } }
+
+    a { color: inherit; }
+    button { font: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .ambient-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .28;
+      background-image:
+        linear-gradient(rgba(239,22,56,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(239,22,56,.08) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to right, transparent 0, black 18%, black 82%, transparent 100%);
+      animation: gridDrift 16s linear infinite;
+    }
+
+    .ambient-beam {
+      position: fixed;
+      width: 38vw;
+      height: 2px;
+      left: 24vw;
+      top: 20vh;
+      background: linear-gradient(90deg, transparent, rgba(239,22,56,.55), transparent);
+      filter: blur(.3px);
+      transform: rotate(-7deg);
+      transform-origin: center;
+      pointer-events: none;
+      animation: floatTrace 7s ease-in-out infinite;
+    }
+
+    /* NAV PRINCIPAL — mantém o comportamento da página inicial */
+    .site-nav {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--nav-compact);
+      z-index: 1200;
+      overflow: hidden;
+      border-right: 1px solid rgba(239,22,56,.34);
+      background: linear-gradient(180deg, rgba(14,5,9,.98), rgba(3,2,3,.97));
+      box-shadow: 12px 0 40px rgba(0,0,0,.38);
+      transition: width .55s var(--ease), box-shadow .55s var(--ease);
+    }
+
+    .site-nav:hover,
+    .site-nav:focus-within {
+      width: var(--nav-open);
+      box-shadow: 28px 0 74px rgba(0,0,0,.7), 1px 0 0 rgba(239,22,56,.38);
+    }
+
+    .site-nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0 78%, rgba(239,22,56,.08)),
+        repeating-linear-gradient(0deg, transparent 0 54px, rgba(239,22,56,.05) 55px 56px);
+      pointer-events: none;
+    }
+
+    .nav-brand {
+      position: relative;
+      height: 126px;
+      display: grid;
+      place-items: center;
+      border-bottom: 1px solid rgba(239,22,56,.22);
+    }
+
+    .nav-brand img {
+      width: 56px;
+      max-height: 68px;
+      object-fit: contain;
+      filter: grayscale(1) contrast(1.3) brightness(1.35) drop-shadow(0 0 10px rgba(239,22,56,.3));
+      transition: width .55s var(--ease), filter .3s ease;
+    }
+
+    .site-nav:hover .nav-brand img,
+    .site-nav:focus-within .nav-brand img { width: 172px; }
+
+    .nav-brand__code {
+      position: absolute;
+      bottom: 9px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font: 10px/1 "Share Tech Mono", monospace;
+      letter-spacing: .16em;
+      color: var(--red);
+    }
+
+    .nav-list {
+      position: relative;
+      display: grid;
+      gap: 7px;
+      padding: 18px 11px;
+      margin: 0;
+      list-style: none;
+    }
+
+    .nav-link {
+      position: relative;
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 54px minmax(145px,1fr) 15px;
+      align-items: center;
+      gap: 10px;
+      padding: 0 8px;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--silver-dim);
+      border: 1px solid rgba(214,217,220,.09);
+      clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+      background: linear-gradient(100deg, rgba(255,255,255,.02), rgba(239,22,56,.015));
+      transition: color .25s ease, transform .35s var(--ease), border-color .25s ease, background .25s ease;
+    }
+
+    .nav-link::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: var(--red);
+      transform: scaleY(0);
+      transition: transform .3s var(--ease);
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      color: #fff;
+      transform: translateX(5px);
+      border-color: rgba(239,22,56,.34);
+      background: linear-gradient(100deg, rgba(239,22,56,.12), rgba(239,22,56,.025));
+      outline: none;
+    }
+
+    .nav-link:hover::before,
+    .nav-link:focus-visible::before,
+    .nav-link.is-current::before { transform: scaleY(1); }
+
+    .nav-link.is-current {
+      color: #fff;
+      border-color: rgba(239,22,56,.55);
+      background: linear-gradient(100deg, rgba(239,22,56,.2), rgba(239,22,56,.045));
+      box-shadow: inset 0 0 22px rgba(239,22,56,.08);
+    }
+
+    .nav-link__code {
+      font: 13px/1 "Share Tech Mono", monospace;
+      color: var(--red);
+      text-align: center;
+      letter-spacing: .12em;
+    }
+
+    .nav-link__label {
+      white-space: nowrap;
+      font: 700 15px/1 "Oxanium", sans-serif;
+      letter-spacing: .12em;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity .28s ease .08s, transform .35s var(--ease) .04s;
+    }
+
+    .site-nav:hover .nav-link__label,
+    .site-nav:focus-within .nav-link__label { opacity: 1; transform: none; }
+
+    .nav-link__dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      opacity: .5;
+    }
+
+    .nav-footer {
+      position: absolute;
+      inset: auto 0 18px 0;
+      display: grid;
+      place-items: center;
+      gap: 5px;
+      font: 9px/1.3 "Share Tech Mono", monospace;
+      color: #7b7378;
+      letter-spacing: .1em;
+      white-space: nowrap;
+    }
+
+    .nav-footer span:last-child { color: var(--green); }
+
+    .mobile-nav-toggle { display: none; }
+
+    /* ESTRUTURA DA PÁGINA */
+    .app-shell {
+      position: relative;
+      z-index: 10;
+      height: 100dvh;
+      margin-left: var(--nav-compact);
+      display: grid;
+      grid-template-rows: auto auto minmax(0,1fr);
+      transition: margin-left .55s var(--ease);
+    }
+
+    .topbar {
+      min-height: 82px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      align-items: center;
+      gap: 20px;
+      padding: 14px clamp(18px,3vw,46px);
+      border-bottom: 1px solid rgba(239,22,56,.2);
+      background: linear-gradient(180deg, rgba(3,2,3,.92), rgba(3,2,3,.55));
+      backdrop-filter: blur(12px);
+    }
+
+    .page-id { min-width: 0; }
+    .page-id__tag,
+    .digital-tag {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 9px 2px;
+      border: 1px solid currentColor;
+      clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 0 100%);
+      font: 10px/1 "Share Tech Mono", monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--red);
+      background: rgba(239,22,56,.07);
+      box-shadow: inset 0 0 12px rgba(239,22,56,.06);
+    }
+
+    .digital-tag--yellow { color: var(--yellow); background: rgba(255,211,106,.06); }
+    .digital-tag--green { color: var(--green); background: rgba(116,255,173,.055); }
+
+    .page-id h1 {
+      margin: 7px 0 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font: 800 clamp(21px,2.4vw,36px)/.95 "Oxanium", sans-serif;
+      letter-spacing: .045em;
+      text-transform: uppercase;
+      color: #f1f3f5;
+      text-shadow: 1px 0 0 rgba(239,22,56,.65), -1px 0 0 rgba(115,150,165,.28), 0 0 20px rgba(239,22,56,.12);
+      animation: flicker 8s linear infinite;
+    }
+
+    .topbar-status {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font: 10px/1.3 "Share Tech Mono", monospace;
+      color: #958d92;
+      letter-spacing: .1em;
+      text-align: right;
+    }
+
+    .status-pulse {
+      width: 46px;
+      height: 1px;
+      background: var(--red);
+      transform-origin: right;
+      animation: pulseLine 2.5s ease-in-out infinite;
+      box-shadow: 0 0 10px rgba(239,22,56,.6);
+    }
+
+    .chapter-nav {
+      min-height: 70px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px,1fr));
+      gap: 1px;
+      padding: 0 clamp(18px,3vw,46px);
+      background: rgba(3,2,3,.72);
+      border-bottom: 1px solid rgba(239,22,56,.15);
+    }
+
+    .chapter-button {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto minmax(0,1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 0;
+      border-left: 1px solid rgba(214,217,220,.075);
+      color: #827a80;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      transition: color .25s ease, background .25s ease;
+    }
+
+    .chapter-button:last-child { border-right: 1px solid rgba(214,217,220,.075); }
+    .chapter-button::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s var(--ease);
+      box-shadow: 0 0 12px rgba(239,22,56,.7);
+    }
+
+    .chapter-button:hover,
+    .chapter-button:focus-visible { color: #fff; background: rgba(239,22,56,.045); outline: none; }
+    .chapter-button.is-active { color: #fff; background: linear-gradient(180deg, rgba(239,22,56,.08), transparent); }
+    .chapter-button.is-active::after { transform: scaleX(1); }
+
+    .chapter-button__index {
+      font: 700 20px/1 "Share Tech Mono", monospace;
+      color: var(--red);
+    }
+
+    .chapter-button strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font: 700 12px/1.15 "Oxanium", sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .chapter-button small {
+      display: block;
+      margin-top: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font: 9px/1 "Share Tech Mono", monospace;
+      letter-spacing: .08em;
+      color: #776f74;
+    }
+
+    .workspace {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(430px, 1.08fr) minmax(340px, .92fr);
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .reader {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border-right: 1px solid rgba(239,22,56,.2);
+      background: linear-gradient(110deg, rgba(6,3,5,.94), rgba(8,4,7,.86));
+    }
+
+    .reader-progress {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 2px;
+      z-index: 4;
+      background: rgba(255,255,255,.06);
+    }
+
+    .reader-progress i {
+      display: block;
+      width: 100%;
+      height: 0;
+      background: linear-gradient(var(--red), #7d071d);
+      box-shadow: 0 0 12px rgba(239,22,56,.55);
+      transition: height .12s linear;
+    }
+
+    .chapter {
+      display: none;
+      height: 100%;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(239,22,56,.55) rgba(255,255,255,.03);
+      padding: clamp(28px,4vw,58px) clamp(24px,4.5vw,74px) 80px;
+    }
+
+    .chapter::-webkit-scrollbar { width: 8px; }
+    .chapter::-webkit-scrollbar-thumb { background: rgba(239,22,56,.42); border: 2px solid #080507; }
+    .chapter.is-active { display: block; animation: enterChapter .72s var(--ease) both; }
+
+    .chapter-kicker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .chapter-kicker::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(239,22,56,.5), transparent);
+    }
+
+    .chapter h2 {
+      max-width: 860px;
+      margin: 0;
+      font: 800 clamp(34px,5.3vw,78px)/.88 "Oxanium", sans-serif;
+      letter-spacing: -.04em;
+      text-transform: uppercase;
+      color: #eef0f2;
+      text-shadow: 2px 0 0 rgba(239,22,56,.48), -1px 0 0 rgba(170,190,198,.22);
+    }
+
+    .chapter-subtitle {
+      max-width: 780px;
+      margin: 14px 0 26px;
+      font: 600 clamp(16px,1.5vw,22px)/1.15 "Rajdhani", sans-serif;
+      letter-spacing: .04em;
+      color: #a6a0a4;
+    }
+
+    .lead {
+      margin: 0 0 23px;
+      padding-left: 18px;
+      border-left: 2px solid var(--red);
+      font-size: clamp(17px,1.35vw,20px);
+      line-height: 1.58;
+      color: #dedadd;
+    }
+
+    .prose p,
+    .law-body p,
+    .sector-copy p,
+    .feature-note p {
+      max-width: 850px;
+      margin: 0 0 18px;
+      font-size: clamp(15px,1.15vw,18px);
+      line-height: 1.68;
+      color: #bcb6ba;
+      text-align: justify;
+      text-align-last: left;
+      hyphens: none;
+      word-break: normal;
+      overflow-wrap: normal;
+      text-shadow: .35px 0 rgba(239,22,56,.25), -.35px 0 rgba(110,160,170,.12);
+      animation: flicker 12s linear infinite;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 9px;
+      margin: 30px 0 36px;
+    }
+
+    .status-card {
+      min-height: 88px;
+      padding: 14px 16px;
+      border: 1px solid rgba(214,217,220,.1);
+      clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 0 100%);
+      background: linear-gradient(125deg, rgba(239,22,56,.075), rgba(255,255,255,.018));
+    }
+
+    .status-card span {
+      display: block;
+      margin-bottom: 7px;
+      font: 9px/1 "Share Tech Mono", monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .status-card strong {
+      display: block;
+      font: 700 14px/1.35 "Oxanium", sans-serif;
+      color: #e0e2e4;
+    }
+
+    .feature-note {
+      position: relative;
+      margin: 34px 0;
+      padding: 22px 22px 20px;
+      overflow: hidden;
+      border: 1px solid rgba(239,22,56,.32);
+      background: linear-gradient(120deg, rgba(72,4,20,.22), rgba(8,4,7,.82));
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+    }
+
+    .feature-note::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -30%;
+      width: 22%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+      transform: skewX(-20deg);
+      animation: sweep 7s ease-in-out infinite;
+    }
+
+    @keyframes sweep { 0%,65% { left:-30%; } 100% { left:120%; } }
+
+    .feature-note h3 {
+      margin: 10px 0 12px;
+      font: 700 clamp(19px,2vw,29px)/1 "Oxanium", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .035em;
+      color: #f2f3f4;
+    }
+
+    .cycle-grid {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .cycle-card {
+      position: relative;
+      min-height: 155px;
+      padding: 20px;
+      border: 1px solid rgba(214,217,220,.11);
+      background: rgba(255,255,255,.018);
+      transition: transform .35s var(--ease), border-color .25s ease, background .25s ease;
+    }
+
+    .cycle-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(239,22,56,.4);
+      background: rgba(239,22,56,.055);
+    }
+
+    .cycle-card__number {
+      position: absolute;
+      top: 15px;
+      right: 16px;
+      font: 700 34px/1 "Share Tech Mono", monospace;
+      color: rgba(239,22,56,.2);
+    }
+
+    .cycle-card h3 {
+      margin: 0 0 10px;
+      font: 700 16px/1 "Oxanium", sans-serif;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .cycle-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.52;
+      color: #a9a2a7;
+      text-align: justify;
+      text-align-last: left;
+    }
+
+    .law-list { display: grid; gap: 10px; margin-top: 26px; }
+    .law-item {
+      border: 1px solid rgba(214,217,220,.1);
+      background: rgba(255,255,255,.015);
+      clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 0 100%);
+      transition: border-color .25s ease, background .25s ease;
+    }
+    .law-item.is-open { border-color: rgba(239,22,56,.42); background: rgba(239,22,56,.035); }
+
+    .law-trigger {
+      width: 100%;
+      min-height: 68px;
+      display: grid;
+      grid-template-columns: 54px minmax(0,1fr) 28px;
+      align-items: center;
+      gap: 13px;
+      padding: 12px 16px;
+      border: 0;
+      color: #bdb7bb;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .law-trigger:hover,
+    .law-trigger:focus-visible { color: #fff; outline: none; }
+    .law-index { font: 700 19px/1 "Share Tech Mono",monospace; color: var(--red); }
+    .law-name { font: 700 15px/1.2 "Oxanium",sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+    .law-toggle-mark { position: relative; width: 18px; height: 18px; }
+    .law-toggle-mark::before,.law-toggle-mark::after { content:""; position:absolute; top:50%; left:50%; width:14px; height:1px; background:currentColor; transform:translate(-50%,-50%); transition:transform .3s ease; }
+    .law-toggle-mark::after { transform:translate(-50%,-50%) rotate(90deg); }
+    .law-item.is-open .law-toggle-mark::after { transform:translate(-50%,-50%) rotate(0); }
+
+    .law-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .48s var(--ease);
+    }
+    .law-item.is-open .law-body { grid-template-rows: 1fr; }
+    .law-body__inner { min-height:0; overflow:hidden; }
+    .law-columns { display:grid; grid-template-columns:1fr 1fr; gap:1px; padding:0 16px 16px; }
+    .law-column { padding:18px; background:rgba(0,0,0,.22); border-top:1px solid rgba(214,217,220,.08); }
+    .law-column + .law-column { border-left:1px solid rgba(214,217,220,.07); }
+    .law-column__label { display:block; margin-bottom:12px; font:9px/1 "Share Tech Mono",monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--yellow); }
+    .law-column--survivor .law-column__label { color:var(--green); }
+    .law-column p { margin:0; font-size:15px; line-height:1.58; }
+
+    .sector-interface {
+      display:grid;
+      grid-template-columns: minmax(150px,.36fr) minmax(0,1fr);
+      gap:13px;
+      margin-top:28px;
+    }
+
+    .sector-list { display:grid; gap:7px; align-content:start; }
+    .sector-button {
+      min-height:58px;
+      display:grid;
+      grid-template-columns:32px 1fr;
+      align-items:center;
+      gap:8px;
+      padding:9px 11px;
+      border:1px solid rgba(214,217,220,.1);
+      color:#8d858a;
+      background:rgba(255,255,255,.015);
+      cursor:pointer;
+      text-align:left;
+      transition:color .25s ease,border-color .25s ease,transform .3s var(--ease),background .25s ease;
+    }
+    .sector-button:hover,.sector-button:focus-visible { color:#fff; border-color:rgba(239,22,56,.3); transform:translateX(4px); outline:none; }
+    .sector-button.is-active { color:#fff; border-color:rgba(239,22,56,.5); background:rgba(239,22,56,.08); }
+    .sector-button span { font:700 14px/1 "Share Tech Mono",monospace; color:var(--red); }
+    .sector-button strong { font:700 11px/1.2 "Oxanium",sans-serif; text-transform:uppercase; letter-spacing:.04em; }
+
+    .sector-display {
+      min-height:310px;
+      padding:24px;
+      border:1px solid rgba(239,22,56,.24);
+      background:linear-gradient(135deg,rgba(74,7,23,.15),rgba(255,255,255,.018));
+      clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%);
+    }
+    .sector-copy { display:none; }
+    .sector-copy.is-active { display:block; animation:enterChapter .55s var(--ease) both; }
+    .sector-copy h3 { margin:8px 0 15px; font:700 clamp(20px,2vw,29px)/1 "Oxanium",sans-serif; text-transform:uppercase; color:#fff; }
+    .sector-copy p { font-size:16px; }
+
+    .systems {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:8px;
+      margin-top:30px;
+    }
+    .system-cell { padding:13px 10px; border:1px solid rgba(214,217,220,.1); text-align:center; background:rgba(255,255,255,.018); }
+    .system-cell span { display:block; margin-bottom:7px; font:9px/1 "Share Tech Mono",monospace; letter-spacing:.1em; color:#8a8287; text-transform:uppercase; }
+    .system-cell strong { font:700 11px/1.2 "Oxanium",sans-serif; color:var(--green); text-transform:uppercase; }
+    .system-cell:nth-child(2) strong { color:var(--yellow); }
+
+    /* PAINEL VISUAL */
+    .visual-deck {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: #030203;
+    }
+
+    .visual-deck::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:3;
+      pointer-events:none;
+      background:
+        linear-gradient(90deg, rgba(3,2,3,.46), transparent 20%),
+        linear-gradient(0deg, rgba(3,2,3,.92), transparent 45%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 5px);
+      mix-blend-mode:normal;
+    }
+
+    .visual-stage { position:absolute; inset:0; }
+    .visual-image {
+      position:absolute;
+      inset:-3%;
+      width:106%;
+      height:106%;
+      object-fit:cover;
+      object-position:center;
+      filter:grayscale(1) sepia(1) saturate(4.8) hue-rotate(315deg) contrast(1.28) brightness(.64);
+      opacity:0;
+      transform:scale(1.08);
+      transition:opacity 1.05s ease,transform 5s var(--ease),filter .5s ease;
+    }
+    .visual-image.is-active { opacity:1; transform:scale(1.015); }
+
+    .visual-scan {
+      position:absolute;
+      z-index:5;
+      left:0;
+      right:0;
+      height:24%;
+      background:linear-gradient(180deg,transparent,rgba(255,44,71,.08),rgba(255,255,255,.04),transparent);
+      filter:blur(1px);
+      pointer-events:none;
+      animation:imageScan 6s linear infinite;
+    }
+
+    .visual-hud {
+      position:absolute;
+      inset:26px 26px auto;
+      z-index:7;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:15px;
+      pointer-events:none;
+    }
+    .visual-hud__left { display:grid; gap:7px; }
+    .visual-hud__code { font:10px/1 "Share Tech Mono",monospace; color:rgba(255,255,255,.65); letter-spacing:.12em; }
+    .visual-hud__reticle { width:48px; height:48px; border:1px solid rgba(239,22,56,.42); border-radius:50%; position:relative; box-shadow:0 0 25px rgba(239,22,56,.1); }
+    .visual-hud__reticle::before,.visual-hud__reticle::after { content:""; position:absolute; background:rgba(239,22,56,.58); }
+    .visual-hud__reticle::before { width:62px; height:1px; top:50%; left:50%; transform:translate(-50%,-50%); }
+    .visual-hud__reticle::after { width:1px; height:62px; top:50%; left:50%; transform:translate(-50%,-50%); }
+
+    .visual-caption {
+      position:absolute;
+      z-index:8;
+      left:clamp(24px,4vw,56px);
+      right:clamp(24px,4vw,56px);
+      bottom:112px;
+      pointer-events:none;
+    }
+    .visual-caption h2 {
+      max-width:650px;
+      margin:9px 0 8px;
+      font:800 clamp(27px,4vw,61px)/.9 "Oxanium",sans-serif;
+      letter-spacing:-.04em;
+      text-transform:uppercase;
+      color:#fff;
+      text-shadow:2px 0 rgba(239,22,56,.75),0 8px 30px rgba(0,0,0,.95);
+    }
+    .visual-caption p { margin:0; max-width:520px; font:11px/1.45 "Share Tech Mono",monospace; letter-spacing:.08em; color:#c3bdc1; }
+
+    .thumbnail-rail {
+      position:absolute;
+      z-index:9;
+      inset:auto 24px 24px;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:8px;
+    }
+    .thumb {
+      position:relative;
+      height:64px;
+      padding:0;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.15);
+      background:#090507;
+      cursor:pointer;
+      filter:saturate(.7);
+      transition:transform .3s var(--ease),border-color .25s ease,filter .25s ease;
+    }
+    .thumb:hover,.thumb:focus-visible { transform:translateY(-4px); border-color:rgba(239,22,56,.55); filter:saturate(1); outline:none; }
+    .thumb.is-active { border-color:var(--red); box-shadow:0 0 18px rgba(239,22,56,.2); }
+    .thumb img { width:100%; height:100%; object-fit:cover; filter:grayscale(1) sepia(1) saturate(4.5) hue-rotate(315deg) contrast(1.25) brightness(.65); }
+    .thumb span { position:absolute; inset:auto 5px 4px; font:8px/1 "Share Tech Mono",monospace; color:#fff; text-align:left; text-shadow:0 1px 4px #000; }
+
+    .mobile-chapter-title { display:none; }
+
+    @media (min-width: 1300px) {
+      .workspace { grid-template-columns: minmax(560px, 1.02fr) minmax(480px, .98fr); }
+    }
+
+    @media (max-width: 1050px) {
+      body { overflow:auto; }
+      .app-shell { height:auto; min-height:100dvh; grid-template-rows:auto auto auto; }
+      .workspace { min-height:calc(100dvh - 152px); grid-template-columns:1fr; overflow:visible; }
+      .visual-deck { height:46vh; min-height:360px; order:-1; border-bottom:1px solid rgba(239,22,56,.2); }
+      .reader { min-height:66vh; border-right:0; }
+      .chapter { height:auto; min-height:66vh; overflow:visible; }
+      .reader-progress { display:none; }
+      .visual-caption { bottom:100px; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --nav-compact: 0px; }
+      body { padding-bottom:74px; }
+      .site-nav {
+        inset:auto 0 0 0;
+        width:100%;
+        height:72px;
+        border-right:0;
+        border-top:1px solid rgba(239,22,56,.42);
+        overflow:visible;
+        transition:height .45s var(--ease);
+      }
+      .site-nav:hover,.site-nav:focus-within { width:100%; box-shadow:0 -20px 55px rgba(0,0,0,.7); }
+      .site-nav.is-open { height:min(520px,78dvh); }
+      .nav-brand { position:absolute; left:13px; bottom:8px; width:56px; height:54px; border:0; z-index:3; }
+      .nav-brand img,.site-nav:hover .nav-brand img,.site-nav:focus-within .nav-brand img { width:47px; max-height:45px; }
+      .nav-brand__code { display:none; }
+      .mobile-nav-toggle {
+        display:grid;
+        place-items:center;
+        position:absolute;
+        right:14px;
+        bottom:13px;
+        z-index:4;
+        width:47px;
+        height:45px;
+        border:1px solid rgba(239,22,56,.5);
+        color:#fff;
+        background:rgba(239,22,56,.1);
+        clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%);
+        cursor:pointer;
+      }
+      .mobile-nav-toggle i,.mobile-nav-toggle::before,.mobile-nav-toggle::after { content:""; display:block; width:20px; height:1px; background:currentColor; transition:transform .3s ease,opacity .3s ease; }
+      .mobile-nav-toggle i { margin:5px 0; }
+      .site-nav.is-open .mobile-nav-toggle::before { transform:translateY(6px) rotate(45deg); }
+      .site-nav.is-open .mobile-nav-toggle i { opacity:0; }
+      .site-nav.is-open .mobile-nav-toggle::after { transform:translateY(-6px) rotate(-45deg); }
+      .nav-list {
+        position:absolute;
+        left:0; right:0; bottom:72px;
+        max-height:calc(78dvh - 72px);
+        padding:15px;
+        overflow:auto;
+        opacity:0;
+        pointer-events:none;
+        transform:translateY(20px);
+        transition:opacity .3s ease,transform .4s var(--ease);
+        background:rgba(5,3,5,.98);
+      }
+      .site-nav.is-open .nav-list { opacity:1; pointer-events:auto; transform:none; }
+      .nav-link { grid-template-columns:45px minmax(0,1fr) 15px; }
+      .nav-link__label { opacity:1; transform:none; }
+      .nav-footer { left:78px; right:72px; bottom:14px; inset-inline:auto; width:calc(100% - 150px); }
+      .app-shell { margin-left:0; }
+      .topbar { min-height:73px; grid-template-columns:1fr; padding:12px 16px; }
+      .page-id h1 { font-size:20px; }
+      .topbar-status { display:none; }
+      .chapter-nav { display:flex; min-height:64px; overflow-x:auto; padding:0 10px; scrollbar-width:none; }
+      .chapter-nav::-webkit-scrollbar { display:none; }
+      .chapter-button { flex:0 0 180px; min-height:64px; padding:9px 10px; }
+      .chapter-button__index { font-size:17px; }
+      .workspace { min-height:0; }
+      .visual-deck { height:42vh; min-height:310px; }
+      .visual-hud { inset:16px 16px auto; }
+      .visual-caption { left:18px; right:18px; bottom:88px; }
+      .visual-caption h2 { font-size:clamp(25px,8vw,40px); }
+      .visual-caption p { display:none; }
+      .thumbnail-rail { inset:auto 13px 13px; gap:5px; }
+      .thumb { height:52px; }
+      .thumb span { display:none; }
+      .chapter { padding:30px 19px 68px; }
+      .chapter h2 { font-size:clamp(34px,11vw,52px); }
+      .lead { padding-left:13px; }
+      .status-grid,.cycle-grid { grid-template-columns:1fr; }
+      .law-columns { grid-template-columns:1fr; }
+      .law-column + .law-column { border-left:0; border-top:1px solid rgba(214,217,220,.07); }
+      .sector-interface { grid-template-columns:1fr; }
+      .sector-list { display:flex; overflow-x:auto; padding-bottom:5px; scrollbar-width:none; }
+      .sector-list::-webkit-scrollbar { display:none; }
+      .sector-button { flex:0 0 165px; }
+      .sector-display { min-height:360px; padding:19px; }
+      .systems { grid-template-columns:repeat(2,1fr); }
+    }
+
+    @media (max-height: 700px) and (min-width: 761px) {
+      .topbar { min-height:68px; padding-block:10px; }
+      .chapter-nav { min-height:59px; }
+      .chapter-button { padding-block:8px; }
+      .chapter { padding-top:28px; }
+      .visual-caption { bottom:94px; }
+      .thumb { height:54px; }
+      .thumbnail-rail { bottom:18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.001ms !important; }
+    }
+
+
+    /* =========================================================
+       IDENTIDADE GLOBAL — CÓPIA DO TEMPLATE DA PÁGINA INICIAL
+       ========================================================= */
+
+    :root {
+      --black: #030204;
+      --black-soft: #0a0508;
+      --wine: #3a0717;
+      --wine-deep: #19040c;
+      --red: #ff1c36;
+      --red-soft: #bd0c27;
+      --silver: #d9dde4;
+      --silver-dim: #7e8792;
+      --green: #76ffb6;
+      --yellow: #ffd86b;
+      --panel: rgba(11, 6, 10, 0.84);
+      --line: rgba(255, 255, 255, 0.16);
+      --line-red: rgba(255, 28, 54, 0.55);
+      --sidebar-width: 252px;
+      --ease-cinematic: cubic-bezier(.18, .8, .2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { min-height: 100%; background: var(--black); }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--silver);
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 28, 54, 0.14), transparent 28%),
+        radial-gradient(circle at 28% 92%, rgba(83, 7, 31, 0.34), transparent 38%),
+        linear-gradient(145deg, #020103 0%, #0d0308 44%, #020204 100%);
+      font-family: "Oxanium", system-ui, sans-serif;
+      scrollbar-color: var(--red-soft) #080407;
+      scrollbar-width: thin;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: -5;
+      opacity: .58;
+      background:
+        linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 28, 54, .028) 1px, transparent 1px);
+      background-size: 46px 46px;
+      transform: perspective(760px) rotateX(62deg) translateY(-16%);
+      transform-origin: center top;
+      animation: gridDrift 18s linear infinite;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      opacity: .22;
+      mix-blend-mode: screen;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0,
+        transparent 3px,
+        rgba(255,255,255,.06) 4px
+      );
+      animation: scanShift 7s linear infinite;
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+
+    ::selection { color: #fff; background: rgba(255, 28, 54, .76); }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      pointer-events: none;
+      opacity: .065;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
+      animation: noiseMove .28s steps(2) infinite;
+    }
+
+    .ambient-beam {
+      position: fixed;
+      top: -18vh;
+      right: 5vw;
+      z-index: -3;
+      width: 48vw;
+      height: 140vh;
+      pointer-events: none;
+      opacity: .22;
+      filter: blur(20px);
+      background: linear-gradient(92deg, transparent, rgba(255, 26, 55, .38), transparent 62%);
+      transform: rotate(13deg);
+      animation: beamPulse 8s ease-in-out infinite alternate;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 100;
+      width: var(--sidebar-width);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1px solid rgba(255, 255, 255, .13);
+      background:
+        linear-gradient(180deg, rgba(54, 6, 23, .94), rgba(8, 3, 7, .97) 42%, rgba(3, 2, 4, .98)),
+        var(--black);
+      box-shadow: 30px 0 70px rgba(0, 0, 0, .48);
+      isolation: isolate;
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: .2;
+      background:
+        linear-gradient(135deg, transparent 0 46%, rgba(255,255,255,.08) 47% 48%, transparent 49%),
+        repeating-linear-gradient(180deg, transparent 0 19px, rgba(255,28,54,.08) 20px);
+      animation: sidebarData 13s linear infinite;
+    }
+
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -1px;
+      width: 3px;
+      height: 34%;
+      background: linear-gradient(transparent, var(--red), transparent);
+      box-shadow: 0 0 22px var(--red);
+      animation: sidebarScanner 5.8s ease-in-out infinite;
+    }
+
+    .brand {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 178px;
+      padding: 24px 20px 16px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.025), transparent);
+    }
+
+    .brand::before,
+    .brand::after {
+      content: "";
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      opacity: .55;
+    }
+
+    .brand::before { top: 18px; }
+    .brand::after { bottom: 18px; }
+
+    .brand img {
+      display: block;
+      width: min(100%, 208px);
+      max-height: 112px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 18px rgba(255, 28, 54, .24));
+      animation: logoSignal 5.4s ease-in-out infinite;
+    }
+
+    .brand-fallback {
+      display: none;
+      text-align: center;
+      color: #fff;
+      font: 700 34px/1 "Teko", sans-serif;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .brand-code {
+      position: absolute;
+      right: 17px;
+      bottom: 7px;
+      color: rgba(255,255,255,.42);
+      font: 10px/1 "Share Tech Mono", monospace;
+      letter-spacing: .12em;
+    }
+
+    .nav-title {
+      margin: 20px 22px 10px;
+      color: var(--silver-dim);
+      font: 11px/1 "Share Tech Mono", monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .nav-list {
+      display: grid;
+      gap: 5px;
+      margin: 0;
+      padding: 0 14px;
+      list-style: none;
+    }
+
+    .nav-link {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 1fr 18px;
+      align-items: center;
+      min-height: 48px;
+      padding: 7px 11px;
+      overflow: hidden;
+      color: rgba(223, 227, 233, .72);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: .075em;
+      font: 600 14px/1 "Oxanium", sans-serif;
+      border: 1px solid transparent;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+      transition: color .3s ease, border-color .3s ease, transform .3s var(--ease-cinematic), background .3s ease;
+    }
+
+    .nav-link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, rgba(255, 28, 54, .2), rgba(255, 28, 54, .03));
+      transform: translateX(-102%);
+      transition: transform .45s var(--ease-cinematic);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      inset: auto 9px 5px 39px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--red), transparent);
+      opacity: 0;
+      transform: scaleX(.2);
+      transform-origin: left;
+      transition: opacity .3s ease, transform .4s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible,
+    .nav-link.is-active {
+      color: #fff;
+      border-color: rgba(255, 28, 54, .38);
+      background: rgba(255, 255, 255, .025);
+      transform: translateX(4px);
+      outline: none;
+    }
+
+    .nav-link:hover::before,
+    .nav-link:focus-visible::before,
+    .nav-link.is-active::before { transform: translateX(0); }
+
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after,
+    .nav-link.is-active::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .nav-index {
+      color: var(--red);
+      font: 11px/1 "Share Tech Mono", monospace;
+    }
+
+    .nav-pulse {
+      width: 5px;
+      height: 5px;
+      justify-self: end;
+      border-radius: 50%;
+      background: rgba(255,255,255,.24);
+      box-shadow: 0 0 0 transparent;
+    }
+
+    .nav-link.is-active .nav-pulse {
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+      animation: pulse 1.7s ease-in-out infinite;
+    }
+
+    .sidebar-meta {
+      margin-top: auto;
+      padding: 18px 22px 22px;
+      border-top: 1px solid var(--line);
+      color: rgba(255,255,255,.46);
+      font: 10px/1.55 "Share Tech Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-meta strong {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+      color: var(--green);
+      font-weight: 400;
+    }
+
+    .sidebar-meta strong::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    .main {
+      grid-column: 2;
+      min-width: 0;
+      min-height: 100vh;
+      padding: clamp(18px, 2.3vw, 38px);
+    }
+
+    .topbar {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      min-height: 82px;
+      margin-bottom: clamp(17px, 2vw, 30px);
+      padding: 12px 18px 12px 24px;
+      border: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(66, 8, 27, .72), rgba(7, 4, 7, .68) 70%);
+      clip-path: polygon(0 0, calc(100% - 23px) 0, 100% 23px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+      box-shadow: inset 0 0 40px rgba(255, 28, 54, .035), 0 18px 70px rgba(0,0,0,.2);
+      overflow: hidden;
+    }
+
+    .topbar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(110deg, transparent 0 38%, rgba(255,255,255,.08) 44%, transparent 51%);
+      transform: translateX(-120%);
+      animation: topbarSweep 8s ease-in-out infinite;
+    }
+
+    .page-heading { min-width: 0; }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 3px;
+      color: var(--red);
+      font: 11px/1 "Share Tech Mono", monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--red);
+      box-shadow: 0 0 9px var(--red);
+    }
+
+    .page-title {
+      margin: 0;
+      color: #f2f3f5;
+      font: 600 clamp(28px, 3.4vw, 49px)/.92 "Teko", sans-serif;
+      letter-spacing: .075em;
+      text-transform: uppercase;
+      text-shadow: 1px 0 rgba(255, 28, 54, .35), -1px 0 rgba(110, 184, 255, .14);
+      animation: textSignal 6s steps(1) infinite;
+    }
+
+    .status-bank {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 8px;
+      align-items: center;
+    }
+
+    .status-tag,
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      width: fit-content;
+      padding: 4px 9px;
+      border: 1px solid currentColor;
+      font: 10px/1 "Share Tech Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 5px 100%, 0 calc(100% - 5px));
+      box-shadow: inset 0 0 12px rgba(255,255,255,.025);
+      animation: tagFlicker 7s steps(1) infinite;
+    }
+
+    .tag-red { color: #ff4054; background: rgba(255, 28, 54, .08); }
+    .tag-green { color: var(--green); background: rgba(118, 255, 182, .055); }
+    .tag-yellow { color: var(--yellow); background: rgba(255, 216, 107, .055); }
+
+    .mobile-trigger {
+      display: none;
+      position: relative;
+      z-index: 140;
+      width: 46px;
+      height: 42px;
+      padding: 0;
+      color: #fff;
+      border: 1px solid var(--line-red);
+      background: rgba(30, 5, 13, .88);
+      clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+      cursor: pointer;
+    }
+
+    .mobile-trigger span,
+    .mobile-trigger::before,
+    .mobile-trigger::after {
+      content: "";
+      position: absolute;
+      left: 11px;
+      width: 23px;
+      height: 2px;
+      background: currentColor;
+      transition: transform .35s ease, top .35s ease, opacity .25s ease;
+    }
+
+    .mobile-trigger span { top: 20px; }
+    .mobile-trigger::before { top: 13px; }
+    .mobile-trigger::after { top: 27px; }
+
+    .mobile-trigger.is-open span { opacity: 0; }
+    .mobile-trigger.is-open::before { top: 20px; transform: rotate(45deg); }
+    .mobile-trigger.is-open::after { top: 20px; transform: rotate(-45deg); }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.58fr) minmax(330px, .82fr);
+      gap: clamp(16px, 1.8vw, 28px);
+      align-items: stretch;
+    }
+
+    .archive-panel {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(37, 7, 18, .68), rgba(6, 4, 7, .91) 38%, rgba(8, 5, 8, .95));
+      box-shadow:
+        inset 0 0 42px rgba(255, 28, 54, .032),
+        0 24px 90px rgba(0,0,0,.34);
+      clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      isolation: isolate;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 1s ease, transform 1s var(--ease-cinematic), border-color .35s ease;
+    }
+
+    .archive-panel.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .archive-panel:hover { border-color: rgba(255, 28, 54, .46); }
+
+    .archive-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: .18;
+      background: repeating-linear-gradient(180deg, transparent 0 7px, rgba(255,255,255,.025) 8px);
+    }
+
+    .archive-panel::after {
+      content: "";
+      position: absolute;
+      z-index: 8;
+      top: 0;
+      left: 0;
+      width: 38%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), transparent);
+      box-shadow: 0 0 18px var(--red);
+      animation: panelTrace 6.6s ease-in-out infinite;
+    }
+
+    .manifesto-panel {
+      display: grid;
+      grid-template-rows: minmax(255px, 38vh) auto;
+      min-height: min(760px, calc(100vh - 145px));
+    }
+
+    .credits-panel {
+      display: grid;
+      grid-template-rows: minmax(225px, 31vh) auto;
+      min-height: min(760px, calc(100vh - 145px));
+    }
+
+    .media-console {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      background: #080306;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .media-console::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(5,2,4,.03), rgba(20, 2, 10, .42)),
+        radial-gradient(circle at 70% 35%, transparent, rgba(2,0,2,.55) 88%);
+    }
+
+    .media-console::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 7;
+      pointer-events: none;
+      opacity: .38;
+      background:
+        repeating-linear-gradient(180deg, transparent 0 3px, rgba(255,255,255,.07) 4px),
+        linear-gradient(90deg, rgba(115, 0, 28, .22), transparent 22%, transparent 78%, rgba(255, 28, 54, .18));
+      mix-blend-mode: screen;
+      animation: mediaScan 5.8s linear infinite;
+    }
+
+    .media-slide {
+      position: absolute;
+      inset: -2%;
+      width: 104%;
+      height: 104%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      filter: grayscale(.65) sepia(.32) saturate(2.4) hue-rotate(322deg) contrast(1.18) brightness(.58);
+      transform: scale(1.08);
+      transition: opacity 1.4s ease, transform 8s linear, filter .7s ease;
+    }
+
+    .media-slide.is-active {
+      opacity: 1;
+      transform: scale(1.015);
+    }
+
+    .archive-panel:hover .media-slide.is-active {
+      filter: grayscale(.42) sepia(.26) saturate(2.8) hue-rotate(322deg) contrast(1.22) brightness(.67);
+    }
+
+    .media-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 9;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(90deg, rgba(0,0,0,.8), transparent 72%);
+      opacity: .42;
+    }
+
+    .media-hud {
+      position: absolute;
+      inset: 15px 16px auto;
+      z-index: 12;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      pointer-events: none;
+    }
+
+    .media-code,
+    .media-counter {
+      color: rgba(255,255,255,.84);
+      font: 10px/1.25 "Share Tech Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(255,28,54,.7);
+    }
+
+    .media-counter { color: var(--red); }
+
+    .media-axis {
+      position: absolute;
+      right: 18px;
+      bottom: 17px;
+      z-index: 12;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(255,255,255,.68);
+      font: 9px/1 "Share Tech Mono", monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .media-axis i {
+      display: block;
+      width: 42px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red));
+      box-shadow: 0 0 9px var(--red);
+      animation: axisPulse 2.2s ease-in-out infinite;
+    }
+
+    .panel-copy {
+      position: relative;
+      z-index: 10;
+      padding: clamp(22px, 2.4vw, 36px);
+    }
+
+    .panel-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 13px;
+    }
+
+    .panel-title {
+      position: relative;
+      max-width: 850px;
+      margin: 0 0 18px;
+      padding-bottom: 14px;
+      color: #f0f1f4;
+      font: 600 clamp(28px, 3.2vw, 47px)/.94 "Teko", sans-serif;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+      text-shadow: 1px 0 rgba(255,28,54,.38), -1px 0 rgba(119, 204, 255, .13);
+    }
+
+    .panel-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: min(220px, 52%);
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), transparent);
+      box-shadow: 0 0 12px rgba(255,28,54,.7);
+    }
+
+    .panel-text {
+      margin: 0;
+      color: rgba(224, 227, 232, .79);
+      font-size: clamp(13px, .95vw, 15px);
+      line-height: 1.78;
+      letter-spacing: .018em;
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: none;
+      text-shadow: .45px 0 rgba(255,28,54,.22), -.45px 0 rgba(85, 183, 255, .11);
+      animation: copyFlicker 8s steps(1) infinite;
+    }
+
+    .panel-text + .panel-text { margin-top: 14px; }
+
+    .panel-text strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .signature-line {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-top: 21px;
+      color: var(--silver-dim);
+      font: 10px/1.4 "Share Tech Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .signature-line::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: var(--red);
+      box-shadow: 0 0 9px var(--red);
+    }
+
+    .credits-visual {
+      display: grid;
+      grid-template-columns: 1.22fr .78fr;
+      gap: 2px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .credits-visual .visual-cell {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: #060305;
+    }
+
+    .credits-visual .visual-cell:last-child {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .credits-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(.62) sepia(.28) saturate(2.5) hue-rotate(322deg) contrast(1.15) brightness(.54);
+      transform: scale(1.05);
+      transition: transform 1.2s var(--ease-cinematic), filter .6s ease;
+    }
+
+    .credits-panel:hover .credits-visual img {
+      transform: scale(1.015);
+      filter: grayscale(.43) sepia(.24) saturate(2.8) hue-rotate(322deg) contrast(1.19) brightness(.63);
+    }
+
+    .credits-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(180deg, transparent 0 3px, rgba(255,255,255,.07) 4px),
+        linear-gradient(180deg, transparent 30%, rgba(30, 0, 10, .48));
+      mix-blend-mode: screen;
+      opacity: .44;
+    }
+
+    .credit-block {
+      margin-top: 17px;
+      padding: 14px 15px;
+      border-left: 2px solid var(--red);
+      background: linear-gradient(90deg, rgba(255,28,54,.07), transparent);
+    }
+
+    .credit-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--yellow);
+      font: 10px/1.2 "Share Tech Mono", monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .credit-names {
+      margin: 0;
+      color: rgba(255,255,255,.8);
+      font-size: 12px;
+      line-height: 1.7;
+      letter-spacing: .025em;
+      text-align: justify;
+    }
+
+    .bottom-readout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      margin-top: 18px;
+      min-height: 39px;
+      padding: 8px 13px;
+      color: rgba(255,255,255,.42);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      font: 9px/1.4 "Share Tech Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+
+    .data-stream {
+      white-space: nowrap;
+      animation: streamPulse 4.4s ease-in-out infinite;
+    }
+
+    .clock { color: var(--green); }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      pointer-events: none;
+      opacity: 0;
+      background: rgba(0,0,0,.68);
+      backdrop-filter: blur(3px);
+      transition: opacity .35s ease;
+    }
+
+    .overlay.is-visible { opacity: 1; pointer-events: auto; }
+
+    @keyframes gridDrift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 92px, 92px 0; }
+    }
+
+    @keyframes scanShift {
+      0% { transform: translateY(-5px); }
+      100% { transform: translateY(5px); }
+    }
+
+    @keyframes noiseMove {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(-1.5%,1%); }
+      50% { transform: translate(1%,-1.2%); }
+      75% { transform: translate(.6%,1.4%); }
+      100% { transform: translate(0,0); }
+    }
+
+    @keyframes beamPulse {
+      from { opacity: .12; transform: rotate(10deg) translateX(-4%); }
+      to { opacity: .3; transform: rotate(15deg) translateX(7%); }
+    }
+
+    @keyframes sidebarData {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 0, 0 160px; }
+    }
+
+    @keyframes sidebarScanner {
+      0%, 100% { transform: translateY(-110%); }
+      50% { transform: translateY(300%); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: .42; transform: scale(.82); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+
+    @keyframes logoSignal {
+      0%, 94%, 100% { transform: translateX(0); opacity: 1; }
+      95% { transform: translateX(2px); opacity: .72; }
+      96% { transform: translateX(-2px); opacity: .9; }
+      97% { transform: translateX(1px); }
+    }
+
+    @keyframes topbarSweep {
+      0%, 34% { transform: translateX(-120%); }
+      55%, 100% { transform: translateX(140%); }
+    }
+
+    @keyframes textSignal {
+      0%, 91%, 100% { transform: translateX(0); filter: none; }
+      92% { transform: translateX(1px); filter: blur(.25px); }
+      93% { transform: translateX(-1px); }
+    }
+
+    @keyframes tagFlicker {
+      0%, 89%, 92%, 100% { opacity: 1; }
+      90% { opacity: .62; }
+      91% { opacity: .9; }
+    }
+
+    @keyframes panelTrace {
+      0%, 100% { width: 24%; opacity: .62; }
+      50% { width: 68%; opacity: 1; }
+    }
+
+    @keyframes mediaScan {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 8px, 0 0; }
+    }
+
+    @keyframes axisPulse {
+      0%, 100% { opacity: .34; transform: scaleX(.55); transform-origin: right; }
+      50% { opacity: 1; transform: scaleX(1); transform-origin: right; }
+    }
+
+    @keyframes copyFlicker {
+      0%, 96%, 100% { opacity: 1; }
+      97% { opacity: .86; }
+      98% { opacity: .97; }
+    }
+
+    @keyframes streamPulse {
+      0%, 100% { opacity: .35; }
+      50% { opacity: .72; }
+    }
+
+    @media (max-width: 1180px) {
+      :root { --sidebar-width: 218px; }
+      .content-grid { grid-template-columns: minmax(0, 1.35fr) minmax(300px, .9fr); }
+      .status-bank .status-tag:first-child { display: none; }
+      .nav-link { font-size: 12px; }
+      .panel-copy { padding: 24px; }
+    }
+
+    @media (max-width: 960px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .manifesto-panel,
+      .credits-panel { min-height: auto; }
+      .manifesto-panel { grid-template-rows: minmax(270px, 42vw) auto; }
+      .credits-panel { grid-template-rows: minmax(250px, 36vw) auto; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --sidebar-width: min(84vw, 310px); }
+
+      .app-shell { display: block; }
+
+      .sidebar {
+        transform: translateX(-104%);
+        transition: transform .48s var(--ease-cinematic);
+      }
+
+      .sidebar.is-open { transform: translateX(0); }
+
+      .main {
+        min-height: 100vh;
+        padding: 12px;
+      }
+
+      .topbar {
+        grid-template-columns: auto minmax(0, 1fr);
+        min-height: 72px;
+        padding: 10px 14px;
+      }
+
+      .mobile-trigger { display: block; }
+      .status-bank { display: none; }
+      .page-title { font-size: clamp(25px, 8vw, 38px); }
+      .eyebrow { font-size: 9px; }
+      .eyebrow::before { width: 16px; }
+      .manifesto-panel { grid-template-rows: minmax(235px, 65vw) auto; }
+      .credits-panel { grid-template-rows: minmax(220px, 58vw) auto; }
+      .panel-copy { padding: 21px 18px 24px; }
+      .panel-title { font-size: clamp(28px, 9vw, 39px); }
+      .panel-text { font-size: 13px; line-height: 1.68; }
+      .bottom-readout { grid-template-columns: 1fr; gap: 4px; }
+      .clock { justify-self: start; }
+      .credits-visual { grid-template-columns: 1fr .86fr; }
+    }
+
+    @media (max-width: 460px) {
+      .topbar { margin-bottom: 12px; }
+      .content-grid { gap: 12px; }
+      .manifesto-panel { grid-template-rows: 215px auto; }
+      .credits-panel { grid-template-rows: 202px auto; }
+      .panel-copy { padding: 19px 15px 22px; }
+      .panel-title { margin-bottom: 15px; }
+      .panel-text { font-size: 12.5px; }
+      .media-hud { inset: 11px 11px auto; }
+      .media-code { max-width: 65%; }
+      .section-tag { font-size: 9px; }
+      .credit-block { padding: 12px; }
+    }
+
+    @media (max-height: 700px) and (min-width: 761px) {
+      .brand { min-height: 135px; }
+      .brand img { max-height: 82px; }
+      .nav-link { min-height: 40px; }
+      .nav-title { margin-top: 13px; }
+      .sidebar-meta { padding-top: 11px; padding-bottom: 13px; }
+      .main { padding-top: 15px; padding-bottom: 15px; }
+      .topbar { min-height: 68px; margin-bottom: 15px; }
+      .manifesto-panel,
+      .credits-panel { min-height: 570px; }
+      .manifesto-panel { grid-template-rows: 240px auto; }
+      .credits-panel { grid-template-rows: 215px auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+
+      .archive-panel { opacity: 1; transform: none; }
+      .media-slide.is-active { transform: scale(1.015); }
+    }
+  
+
+    /* Compatibilidade do conteúdo de Ambientação com o shell oficial. */
+    :root {
+      --red-hot: #ff2948;
+      --wine-2: #4a0717;
+      --panel-strong: rgba(5, 3, 5, .94);
+      --ease: var(--ease-cinematic);
+    }
+
+    body {
+      height: 100dvh;
+      overflow: hidden;
+      font-family: "Oxanium", system-ui, sans-serif;
+    }
+
+    .ambient-grid { z-index: -4; }
+
+    /* Remove resíduos do antigo menu compacto e preserva medidas idênticas ao Home. */
+    .app-shell {
+      min-height: 100vh;
+      height: auto;
+      margin-left: 0;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      grid-template-rows: none;
+      transition: none;
+    }
+
+    .nav-list { position: static; }
+    .nav-link { gap: 0; }
+
+    .ambient-main {
+      grid-column: 2;
+      min-width: 0;
+      height: 100dvh;
+      padding: clamp(18px, 2.3vw, 38px);
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .ambient-main .topbar {
+      backdrop-filter: none;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .chapter-nav {
+      padding-inline: 0;
+      margin-top: 0;
+      border: 1px solid rgba(255,255,255,.12);
+      border-bottom-color: rgba(255,28,54,.24);
+      background: linear-gradient(90deg, rgba(45,7,20,.52), rgba(5,3,5,.72));
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+    }
+
+    .chapter h2,
+    .visual-caption h2,
+    .sector-copy h3 {
+      font-family: "Teko", sans-serif;
+      letter-spacing: .065em;
+    }
+
+    .reader,
+    .visual-deck {
+      border-color: var(--line);
+      background: linear-gradient(145deg, rgba(37,7,18,.48), rgba(6,4,7,.92));
+    }
+
+    @media (max-width: 1180px) {
+      .ambient-main { padding: clamp(14px, 2vw, 25px); }
+    }
+
+    @media (max-width: 760px) {
+      body { height: auto; min-height: 100dvh; padding-bottom: 0; }
+      .app-shell { display: block; }
+      .ambient-main {
+        grid-column: auto;
+        width: 100%;
+        height: 100dvh;
+        min-height: 100dvh;
+        padding: 12px;
+      }
+      .chapter-nav { padding-inline: 0; }
+    }
+
+    @media (max-height: 700px) and (min-width: 761px) {
+      .ambient-main { padding-top: 15px; padding-bottom: 15px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="ambient-grid" aria-hidden="true"></div>
+  <div class="ambient-beam" aria-hidden="true"></div>
+
+  <div class="noise" aria-hidden="true"></div>
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+      <a class="brand" href="https://marvelsaxial.tumblr.com/home" target="_top" aria-label="Marvel's Terra Axial — Início">
+        <img id="siteLogo" src="https://i.imgur.com/5UEkjjS.png" alt="Marvel's Terra Axial">
+        <span class="brand-fallback" id="brandFallback">Marvel's<br>Terra Axial</span>
+        <span class="brand-code">AXIAL.OS // 12</span>
+      </a>
+
+      <p class="nav-title">Diretório de arquivos</p>
+      <nav>
+        <ul class="nav-list">
+          <li><a class="nav-link" href="https://marvelsaxial.tumblr.com/home" target="_top"><span class="nav-index">01</span><span>Início</span><i class="nav-pulse"></i></a></li>
+          <li><a class="nav-link is-active" href="https://marvelsaxial.tumblr.com/ambientacao" target="_top" aria-current="page"><span class="nav-index">02</span><span>Ambientação</span><i class="nav-pulse"></i></a></li>
+          <li><a class="nav-link" href="https://marvelsaxial.tumblr.com/cronologia" target="_top"><span class="nav-index">03</span><span>Cronologia</span><i class="nav-pulse"></i></a></li>
+          <li><a class="nav-link" href="https://marvelsaxial.tumblr.com/faccoes" target="_top"><span class="nav-index">04</span><span>Facções</span><i class="nav-pulse"></i></a></li>
+          <li><a class="nav-link" href="https://marvelsaxial.tumblr.com/pacotes" target="_top"><span class="nav-index">05</span><span>Pacotes</span><i class="nav-pulse"></i></a></li>
+          <li><a class="nav-link" href="https://marvelsaxial.tumblr.com/legados" target="_top"><span class="nav-index">06</span><span>Legados</span><i class="nav-pulse"></i></a></li>
+          <li><a class="nav-link" href="https://marvelsaxial.tumblr.com/extras" target="_top"><span class="nav-index">07</span><span>Extras</span><i class="nav-pulse"></i></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-meta">
+        <strong>Arquivo sincronizado</strong>
+        <span>H.A.M.M.E.R. // acesso comprometido</span><br>
+        <span>Memória não licenciada</span>
+      </div>
+    </aside>
+    <main class="ambient-main" id="mainContent">
+      <header class="topbar">
+        <button class="mobile-trigger" id="mobileTrigger" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
+
+        <div class="page-heading">
+          <p class="eyebrow">Arquivo ambiental // acesso parcial</p>
+          <h1 class="page-title">Ambientação — Terra Axial</h1>
+        </div>
+
+        <div class="status-bank" aria-label="Status do sistema">
+          <span class="status-tag tag-red">Fornalha</span>
+          <span class="status-tag tag-yellow" id="clock">--:--:--</span>
+          <span class="status-tag tag-green">Sinal ativo</span>
+        </div>
+      </header>
+
+    <nav class="chapter-nav" aria-label="Capítulos da ambientação">
+      <button class="chapter-button is-active" type="button" data-chapter="fornalha" aria-selected="true">
+        <span class="chapter-button__index">01</span><span><strong>A Fornalha</strong><small>ARENA // CIDADE-ESTADO</small></span>
+      </button>
+      <button class="chapter-button" type="button" data-chapter="torneios" aria-selected="false">
+        <span class="chapter-button__index">02</span><span><strong>Os Torneios</strong><small>ESPETÁCULO AUTORIZADO</small></span>
+      </button>
+      <button class="chapter-button" type="button" data-chapter="leis" aria-selected="false">
+        <span class="chapter-button__index">03</span><span><strong>As Leis</strong><small>ORDEM // SOBREVIVÊNCIA</small></span>
+      </button>
+      <button class="chapter-button" type="button" data-chapter="base" aria-selected="false">
+        <span class="chapter-button__index">04</span><span><strong>O Ninho de Cinzas</strong><small>BASE DOS DEFENSORES</small></span>
+      </button>
+    </nav>
+
+    <div class="workspace">
+      <section class="reader" aria-label="Leitor de arquivo">
+        <div class="reader-progress" aria-hidden="true"><i id="readerProgress"></i></div>
+
+        <article class="chapter is-active" id="chapter-fornalha" data-visual="fornalha" tabindex="0">
+          <div class="chapter-kicker"><span class="digital-tag">SETOR // FORNALHA</span></div>
+          <h2>A FORNALHA</h2>
+          <p class="chapter-subtitle">Arena, cidade-estado, prisão e máquina de produzir sobreviventes</p>
+
+          <div class="prose">
+            <p class="lead">A Fornalha começa onde os mapas da H.A.M.M.E.R. deixam de ser honestos. Nas telas de Thanópolis, ela aparece como uma zona industrial de recuperação, um território severo onde condenados trabalham para pagar a dívida de continuar vivos.</p>
+            <p>Vista de perto, é outra coisa: um deserto vermelho atravessado por torres de vigilância, ferrovias que transportam minério e corpos, cidades de sucata construídas ao redor de poços envenenados e arenas cujo brilho pode ser visto muito antes de se ouvir o primeiro grito.</p>
+            <p>O céu nunca oferece abrigo. Tempestades secas arrastam vidro moído, cinzas e restos de máquinas pelos caminhos. Quando chove, a água chega negra, pesada de óleo e resíduos das fundições. Os drones alteram imagens, desviam viajantes e fazem comunidades inteiras desaparecerem dos registros exteriores. Para quem vive além das fronteiras, a Fornalha é uma mancha sem detalhes. Para quem nasceu nela, cada ponte, duto e pilha de metal possui o nome de alguém que morreu para mantê-los em pé.</p>
+            <p>A Regência a construiu para converter sobrevivência em competição. Tudo é medido: a quantidade de água que um corpo consome, a distância que pode caminhar, o peso que consegue carregar e o número de pessoas que aceita abandonar.</p>
+          </div>
+
+          <div class="feature-note">
+            <span class="digital-tag digital-tag--yellow">ERRO SISTÊMICO // LEALDADE</span>
+            <h3>O cálculo que a Regência não consegue eliminar</h3>
+            <p>Pessoas obrigadas a depender umas das outras começam a inventar lealdades que não constam nos protocolos. É dessas lealdades que surgem as caravanas, os campeões e, por fim, os Jovens Defensores.</p>
+          </div>
+
+          <div class="status-grid">
+            <div class="status-card"><span>FUNÇÃO</span><strong>Contenção e seleção.</strong></div>
+            <div class="status-card"><span>CLIMA</span><strong>Vermelho, tóxico e industrial.</strong></div>
+            <div class="status-card"><span>AUTORIDADE</span><strong>H.A.M.M.E.R., sob a administração política de Wilson Fisk.</strong></div>
+            <div class="status-card"><span>MAIOR RISCO REGISTRADO</span><strong>O nascimento de um heroísmo coletivo.</strong></div>
+          </div>
+        </article>
+
+        <article class="chapter" id="chapter-torneios" data-visual="torneios" tabindex="0">
+          <div class="chapter-kicker"><span class="digital-tag digital-tag--yellow">PROTOCOLO // PRESTÍGIO</span></div>
+          <h2>OS TORNEIOS DOS CAMPEÕES</h2>
+          <p class="chapter-subtitle">O grande espetáculo autorizado da Fornalha</p>
+
+          <div class="prose">
+            <p class="lead">Os Torneios dos Campeões são o grande teatro da Fornalha. A H.A.M.M.E.R. diz que foram criados para reduzir guerras entre caravanas, permitindo que disputas por água, território e equipamento fossem resolvidas por representantes escolhidos.</p>
+            <p>A promessa parece civilizada até a primeira luta. Comunidades inteiras depositam sua sobrevivência sobre um único corpo, enquanto as arquibancadas apostam quantos ossos ele perderá antes de cair.</p>
+            <p>As Rodadas de Prestígio são transmitidas para os setores privilegiados de Thanópolis. Nelas, o sofrimento da Fornalha recebe iluminação limpa, narradores treinados e estatísticas que transformam desespero em entretenimento. Um campeão pode conquistar alimento para mil pessoas, o perdão de uma dívida ou a passagem por uma rota fechada. Também pode perder tudo porque um patrocinador decidiu que o adversário oferecia uma história melhor.</p>
+            <p>Vencer não significa liberdade. Os melhores campeões desaparecem depois da celebração, retirados das arenas por equipes médicas que não respondem às caravanas. Alguns retornam alterados; outros passam a existir apenas em registros de continuidade, bancos genéticos ou rumores sobre âncoras utilizadas nos Eventos Brancos. A verdade que circula entre os veteranos é simples: a arena não escolhe quem sairá da Fornalha. Escolhe qual parte do vencedor ainda será útil ao regime.</p>
+          </div>
+
+          <div class="feature-note">
+            <span class="digital-tag digital-tag--green">ARQUIVO LUKE CAGE // SÍMBOLO</span>
+            <h3>O campeão que alterou a aposta</h3>
+            <p>Luke Cage tornou-se perigoso não porque venceu, mas porque se recusou a matar adversários derrotados. Cada vida poupada transformava a arena em prova de que as regras não eram inevitáveis. Quando crianças passaram a apostar não em quantas pessoas Luke destruiria, mas em quantas salvaria, Fisk compreendeu que o espetáculo estava produzindo um símbolo em vez de obediência.</p>
+          </div>
+
+          <div class="chapter-kicker"><span class="digital-tag">CICLO DOS TORNEIOS</span></div>
+          <div class="cycle-grid">
+            <article class="cycle-card"><span class="cycle-card__number">01</span><h3>Seleção</h3><p>Uma caravana escolhe, compra, obriga ou oferece seu campeão.</p></article>
+            <article class="cycle-card"><span class="cycle-card__number">02</span><h3>Prestígio</h3><p>O combate recebe patrocinadores, transmissão e valor político.</p></article>
+            <article class="cycle-card"><span class="cycle-card__number">03</span><h3>Vitória</h3><p>O resultado decide água, passagem, território, dívida ou sobrevivência.</p></article>
+            <article class="cycle-card"><span class="cycle-card__number">04</span><h3>Coleta</h3><p>O vencedor é avaliado, catalogado e, quando considerado valioso, retirado da própria comunidade.</p></article>
+          </div>
+        </article>
+
+        <article class="chapter" id="chapter-leis" data-visual="leis" tabindex="0">
+          <div class="chapter-kicker"><span class="digital-tag">CÓDIGO // REGÊNCIA</span></div>
+          <h2>AS LEIS DA FORNALHA</h2>
+          <p class="chapter-subtitle">A ordem escrita e a verdade vivida</p>
+
+          <div class="prose">
+            <p class="lead">As leis da Fornalha foram redigidas para transformar violência em procedimento. Nenhuma delas menciona fome, medo ou abandono. Falam de produtividade, patrimônio, retorno e estabilidade.</p>
+            <p>É assim que a Regência prefere seus crimes: numerados, carimbados e repetidos até que pareçam parte natural do mundo.</p>
+            <p>Os sobreviventes conservam outra versão. Cada lei possui uma tradução transmitida entre caravanas, geralmente ensinada antes mesmo que uma criança aprenda a ler o texto oficial. A lei escrita descreve aquilo que a Regência deseja parecer. A tradução revela aquilo que todos precisam compreender para permanecer vivos.</p>
+          </div>
+
+          <div class="law-list">
+            <section class="law-item is-open">
+              <button class="law-trigger" type="button" aria-expanded="true"><span class="law-index">I</span><span class="law-name">Lei da Contagem</span><i class="law-toggle-mark"></i></button>
+              <div class="law-body"><div class="law-body__inner"><div class="law-columns">
+                <div class="law-column"><span class="law-column__label">TEXTO OFICIAL</span><p>Todo habitante, viajante, campeão ou recém-nascido deve possuir registro de espécie, capacidade, função e utilidade. A ausência de registro constitui recusa de cidadania e autoriza apreensão imediata para triagem.</p></div>
+                <div class="law-column law-column--survivor"><span class="law-column__label">TRADUÇÃO DOS SOBREVIVENTES</span><p>Na Fornalha, ser contado significa pertencer ao inventário de alguém. Quem não recebe número não recebe água, mas também não pode ser localizado com facilidade. Por isso as mães esperam três noites antes de nomear os filhos, e os batedores aprendem a apagar pegadas antes de aprender a ler.</p></div>
+              </div></div></div>
+            </section>
+
+            <section class="law-item">
+              <button class="law-trigger" type="button" aria-expanded="false"><span class="law-index">II</span><span class="law-name">Lei da Ração</span><i class="law-toggle-mark"></i></button>
+              <div class="law-body"><div class="law-body__inner"><div class="law-columns">
+                <div class="law-column"><span class="law-column__label">TEXTO OFICIAL</span><p>Alimento, água, abrigo e medicação serão distribuídos segundo produtividade, risco assumido e contribuição para a estabilidade regional. Desperdício constitui sabotagem econômica.</p></div>
+                <div class="law-column law-column--survivor"><span class="law-column__label">TRADUÇÃO DOS SOBREVIVENTES</span><p>Fisk chama fome de cálculo porque a palavra crueldade não cabe em uma planilha. Cada caravana mantém dois livros: o que mostra aos fiscais e o que revela quem comeu menos para uma criança sobreviver. O segundo livro é sempre mais verdadeiro e quase sempre termina manchado de sangue.</p></div>
+              </div></div></div>
+            </section>
+
+            <section class="law-item">
+              <button class="law-trigger" type="button" aria-expanded="false"><span class="law-index">III</span><span class="law-name">Lei do Ferro</span><i class="law-toggle-mark"></i></button>
+              <div class="law-body"><div class="law-body__inner"><div class="law-columns">
+                <div class="law-column"><span class="law-column__label">TEXTO OFICIAL</span><p>Toda máquina, arma, prótese ou estrutura recuperada no território pertence à autoridade que reconheceu sua descoberta. A posse não declarada caracteriza apropriação de patrimônio da Regência.</p></div>
+                <div class="law-column law-column--survivor"><span class="law-column__label">TRADUÇÃO DOS SOBREVIVENTES</span><p>Nada na Fornalha pertence a quem encontrou. Pertence a quem consegue defendê-lo até o amanhecer. Parafusos, filtros de água e baterias são guardados como joias; cadáveres de drones são despidos antes de esfriarem; e uma porta de metal vale mais que uma promessa quando chega a temporada das tempestades.</p></div>
+              </div></div></div>
+            </section>
+
+            <section class="law-item">
+              <button class="law-trigger" type="button" aria-expanded="false"><span class="law-index">IV</span><span class="law-name">Lei do Retorno</span><i class="law-toggle-mark"></i></button>
+              <div class="law-body"><div class="law-body__inner"><div class="law-columns">
+                <div class="law-column"><span class="law-column__label">TEXTO OFICIAL</span><p>Toda caravana licenciada deverá retornar ao ponto de origem dentro da janela determinada. Atrasos não autorizados serão tratados como deserção, contaminação ou perda operacional.</p></div>
+                <div class="law-column law-column--survivor"><span class="law-column__label">TRADUÇÃO DOS SOBREVIVENTES</span><p>A lei não exige que todos retornem. Exige apenas que o número da caravana volte a aparecer no portão. Às vezes chegam nove pessoas carregando vinte e três corpos. Às vezes chega apenas o veículo, guiado por um piloto que não reconhece os próprios passageiros. Os fiscais registram presença e fecham o livro.</p></div>
+              </div></div></div>
+            </section>
+
+            <section class="law-item">
+              <button class="law-trigger" type="button" aria-expanded="false"><span class="law-index">V</span><span class="law-name">Lei do Campeão</span><i class="law-toggle-mark"></i></button>
+              <div class="law-body"><div class="law-body__inner"><div class="law-columns">
+                <div class="law-column"><span class="law-column__label">TEXTO OFICIAL</span><p>Conflitos de território, dívida ou acesso poderão ser resolvidos nos Torneios dos Campeões. O resultado homologado pela arena substitui qualquer reivindicação anterior.</p></div>
+                <div class="law-column law-column--survivor"><span class="law-column__label">TRADUÇÃO DOS SOBREVIVENTES</span><p>A arena transforma injustiça em espetáculo e chama o vencedor de legítimo. Uma comunidade pode perder um poço porque seu campeão caiu, mesmo que o homem do outro lado tenha sido alimentado durante meses pela H.A.M.M.E.R. Quando o público grita, a fraude recebe o som de uma verdade.</p></div>
+              </div></div></div>
+            </section>
+
+            <section class="law-item">
+              <button class="law-trigger" type="button" aria-expanded="false"><span class="law-index">VI</span><span class="law-name">Lei da Coleta</span><i class="law-toggle-mark"></i></button>
+              <div class="law-body"><div class="law-body__inner"><div class="law-columns">
+                <div class="law-column"><span class="law-column__label">TEXTO OFICIAL</span><p>Corpos sem reivindicação autorizada, ativos biologicamente viáveis e materiais de interesse científico deverão ser entregues aos coletores. A retenção constitui obstrução dos protocolos de continuidade.</p></div>
+                <div class="law-column law-column--survivor"><span class="law-column__label">TRADUÇÃO DOS SOBREVIVENTES</span><p>Na Fornalha, até os mortos podem ser confiscados. Famílias enterram dentes e pedaços de tecido para que alguma parte permaneça fora dos laboratórios. Luke Cage não recebeu túmulo porque a Regência considerou sua carne mais útil que o luto de quem ficou.</p></div>
+              </div></div></div>
+            </section>
+
+            <section class="law-item">
+              <button class="law-trigger" type="button" aria-expanded="false"><span class="law-index">VII</span><span class="law-name">Lei da Memória</span><i class="law-toggle-mark"></i></button>
+              <div class="law-body"><div class="law-body__inner"><div class="law-columns">
+                <div class="law-column"><span class="law-column__label">TEXTO OFICIAL</span><p>Relatos incompatíveis com o arquivo reconhecido deverão ser entregues para correção, avaliação e tratamento. A repetição de versões não homologadas constitui contágio simbólico.</p></div>
+                <div class="law-column law-column--survivor"><span class="law-column__label">TRADUÇÃO DOS SOBREVIVENTES</span><p>Esta é a lei que todos violam em silêncio. Os velhos contam histórias perto de motores para que os microfones não compreendam. Crianças aprendem nomes proibidos como canções sem refrão. A Fornalha existe para produzir lembranças que sobrevivam às correções do mundo; por isso recordar é o crime que o regime mais teme.</p></div>
+              </div></div></div>
+            </section>
+          </div>
+        </article>
+
+        <article class="chapter" id="chapter-base" data-visual="base" tabindex="0">
+          <div class="chapter-kicker"><span class="digital-tag digital-tag--green">ARQUIVO DEFENSORES // ATIVO</span></div>
+          <h2>O NINHO DE CINZAS</h2>
+          <p class="chapter-subtitle">A Base dos Defensores</p>
+
+          <div class="prose">
+            <p class="lead">A Base dos Defensores não foi construída para durar. Cresceu ao redor de contêineres queimados, plataformas de mineração abandonadas e veículos que deixaram de funcionar longe demais de qualquer oficina.</p>
+            <p>Luke Cage transformou o amontoado em abrigo porque percebeu que a Fornalha já possuía fortalezas demais e lugares seguros de menos. Cada parede do Ninho foi erguida para proteger pessoas, não para impressionar inimigos.</p>
+            <p>Depois da morte de Luke, a base permanece como uma das Doze Caravanas mesmo quando não está em movimento. Seus veículos saem, suas equipes atravessam rotas e seus portões recebem quem retorna, mas o Ninho tornou-se o ponto para o qual todos tentam voltar. Isso o transforma em lar e fraqueza. A H.A.M.M.E.R. pode destruir um acampamento; destruir a ideia de retorno exige encontrar todas as pessoas que ainda sabem o caminho.</p>
+            <p>O Ninho não possui muralhas verdadeiras. Possui camadas de metal, corredores estreitos, plataformas improvisadas e pessoas que sabem onde ficar quando as sirenes começam. A base sobrevive porque cada setor foi pensado para cumprir mais de uma função. Uma oficina pode virar enfermaria. Um depósito pode se tornar abrigo. Um corredor pode ser rota de evacuação ou a última linha de defesa.</p>
+          </div>
+
+          <div class="sector-interface">
+            <div class="sector-list" role="tablist" aria-label="Setores do Ninho de Cinzas">
+              <button class="sector-button is-active" type="button" data-sector="patio" role="tab" aria-selected="true"><span>01</span><strong>Pátio Central</strong></button>
+              <button class="sector-button" type="button" data-sector="enfermaria" role="tab" aria-selected="false"><span>02</span><strong>Enfermaria</strong></button>
+              <button class="sector-button" type="button" data-sector="corredor" role="tab" aria-selected="false"><span>03</span><strong>Corredor Oeste</strong></button>
+              <button class="sector-button" type="button" data-sector="tuneis" role="tab" aria-selected="false"><span>04</span><strong>Túneis</strong></button>
+              <button class="sector-button" type="button" data-sector="oficina" role="tab" aria-selected="false"><span>05</span><strong>Oficina e Rádio</strong></button>
+            </div>
+
+            <div class="sector-display">
+              <article class="sector-copy is-active" data-sector-panel="patio">
+                <span class="digital-tag">SETOR 01</span><h3>Pátio Central</h3>
+                <p>O coração público do Ninho. É onde caravanas descarregam feridos, onde a água é medida e onde decisões impossíveis precisam ser anunciadas diante de todos.</p>
+                <p>Depois de Luke, o pátio deixa de ser apenas uma área de recepção e se torna o lugar onde Kamala aprende que abrir os portões também significa aceitar os mortos que chegam com os vivos. É o setor mais barulhento da base durante o dia e o mais silencioso quando alguém precisa dizer quantos não retornaram.</p>
+              </article>
+              <article class="sector-copy" data-sector-panel="enfermaria">
+                <span class="digital-tag digital-tag--yellow">SETOR 02</span><h3>Enfermaria</h3>
+                <p>Macas improvisadas, aparelhos reconstruídos e medicamentos guardados em caixas que já tiveram outras funções. A enfermaria não cura a Fornalha; compra tempo.</p>
+                <p>Riri mantém os equipamentos funcionando, enquanto Shuri decide quais recursos serão utilizados agora e quais precisam permanecer intactos para uma emergência ainda pior. Não existe escolha sem consequência naquele setor. Toda dose utilizada significa que outra pessoa talvez não a receba amanhã.</p>
+              </article>
+              <article class="sector-copy" data-sector-panel="corredor">
+                <span class="digital-tag">SETOR 03</span><h3>Corredor Oeste</h3>
+                <p>A passagem entre o setor civil e os depósitos de combustível. É estreita o bastante para ser defendida e larga o bastante para se tornar um túmulo coletivo quando as portas fecham.</p>
+                <p>Toda pessoa do Ninho conhece o corredor e evita perguntar quem terá autoridade para selá-lo durante um ataque. Os veteranos sabem a resposta. Os mais jovens ainda acreditam que haverá tempo para encontrar outra solução.</p>
+              </article>
+              <article class="sector-copy" data-sector-panel="tuneis">
+                <span class="digital-tag digital-tag--green">SETOR 04</span><h3>Túneis de Evacuação</h3>
+                <p>Rotas subterrâneas utilizadas por crianças, feridos e pessoas que não podem aparecer nos registros. Algumas terminam em sucata; outras se ligam ao Protocolo de Retorno de Riri ou às portas curtas de América Chavez.</p>
+                <p>Nenhum mapa contém todas as saídas, porque Luke acreditava que uma rota completa era apenas uma confissão esperando interrogatório. Cada integrante conhece um fragmento. O Ninho só pode ser evacuado por inteiro quando essas pessoas confiam umas nas outras.</p>
+              </article>
+              <article class="sector-copy" data-sector-panel="oficina">
+                <span class="digital-tag digital-tag--yellow">SETOR 05</span><h3>Oficina e Rádio</h3>
+                <p>A oficina de Riri divide paredes com o rádio clandestino. Metal queimado, cabos, placas de memória e vozes chegam ao mesmo lugar.</p>
+                <p>É ali que o Ninho escuta caravanas perdidas, avisos de torres e gravações que talvez pertençam a continuidades anteriores. A oficina conserta máquinas; o rádio tenta consertar a certeza de que alguém ainda responde.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="systems" aria-label="Estado dos sistemas">
+            <div class="system-cell"><span>Abrigo</span><strong>Operacional</strong></div>
+            <div class="system-cell"><span>Água</span><strong>Racionada</strong></div>
+            <div class="system-cell"><span>Rádio</span><strong>Clandestino</strong></div>
+            <div class="system-cell"><span>Portões</span><strong>Abertos</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <aside class="visual-deck" aria-label="Painel visual da ambientação">
+        <div class="visual-stage" id="visualStage">
+          <img class="visual-image is-active" data-visual-image="fornalha" src="https://i.imgur.com/CLANM3s.png" alt="A Fornalha">
+          <img class="visual-image" data-visual-image="torneios" src="https://i.imgur.com/DsmigAZ.png" alt="Torneios dos Campeões">
+          <img class="visual-image" data-visual-image="leis" src="https://i.imgur.com/AX8aHNQ.png" alt="Caravanas da Fornalha">
+          <img class="visual-image" data-visual-image="base" src="https://i.imgur.com/zNkST5J.png" alt="Base dos Defensores">
+        </div>
+        <div class="visual-scan" aria-hidden="true"></div>
+        <div class="visual-hud" aria-hidden="true">
+          <div class="visual-hud__left"><span class="digital-tag" id="visualTag">ZONA INDUSTRIAL // NÃO HOMOLOGADA</span><span class="visual-hud__code" id="visualCode">VISUAL 01 // CLANM3S</span></div>
+          <div class="visual-hud__reticle"></div>
+        </div>
+        <div class="visual-caption">
+          <span class="digital-tag digital-tag--yellow" id="visualStatus">CONTENÇÃO // SELEÇÃO</span>
+          <h2 id="visualTitle">A FORNALHA</h2>
+          <p id="visualDescription">ONDE OS MAPAS DA H.A.M.M.E.R. DEIXAM DE SER HONESTOS.</p>
+        </div>
+        <div class="thumbnail-rail" aria-label="Selecionar capítulo visual">
+          <button class="thumb is-active" type="button" data-chapter="fornalha" aria-label="A Fornalha"><img src="https://i.imgur.com/CLANM3s.png" alt=""><span>01 // FORNALHA</span></button>
+          <button class="thumb" type="button" data-chapter="torneios" aria-label="Torneios dos Campeões"><img src="https://i.imgur.com/DsmigAZ.png" alt=""><span>02 // TORNEIOS</span></button>
+          <button class="thumb" type="button" data-chapter="leis" aria-label="Leis e caravanas"><img src="https://i.imgur.com/AX8aHNQ.png" alt=""><span>03 // LEIS</span></button>
+          <button class="thumb" type="button" data-chapter="base" aria-label="Ninho de Cinzas"><img src="https://i.imgur.com/zNkST5J.png" alt=""><span>04 // NINHO</span></button>
+        </div>
+      </aside>
+    </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const chapters = [...document.querySelectorAll('.chapter')];
+      const chapterButtons = [...document.querySelectorAll('.chapter-button')];
+      const thumbs = [...document.querySelectorAll('.thumb')];
+      const visualImages = [...document.querySelectorAll('.visual-image')];
+      const visualTitle = document.getElementById('visualTitle');
+      const visualTag = document.getElementById('visualTag');
+      const visualStatus = document.getElementById('visualStatus');
+      const visualDescription = document.getElementById('visualDescription');
+      const visualCode = document.getElementById('visualCode');
+      const readerProgress = document.getElementById('readerProgress');
+      const sidebar = document.getElementById('sidebar');
+      const mobileTrigger = document.getElementById('mobileTrigger');
+      const overlay = document.getElementById('overlay');
+      const siteLogo = document.getElementById('siteLogo');
+      const brandFallback = document.getElementById('brandFallback');
+
+      const meta = {
+        fornalha: {
+          title: 'A FORNALHA',
+          tag: 'ZONA INDUSTRIAL // NÃO HOMOLOGADA',
+          status: 'CONTENÇÃO // SELEÇÃO',
+          description: 'ONDE OS MAPAS DA H.A.M.M.E.R. DEIXAM DE SER HONESTOS.',
+          code: 'VISUAL 01 // CLANM3S'
+        },
+        torneios: {
+          title: 'TORNEIOS DOS CAMPEÕES',
+          tag: 'TRANSMISSÃO // RODADA DE PRESTÍGIO',
+          status: 'ESPETÁCULO // COLETA',
+          description: 'A ARENA TRANSFORMA SOBREVIVÊNCIA EM UMA HISTÓRIA VENDÁVEL.',
+          code: 'VISUAL 02 // DSMIGAZ'
+        },
+        leis: {
+          title: 'AS LEIS DA FORNALHA',
+          tag: 'ARQUIVO JURÍDICO // DUPLA LEITURA',
+          status: 'ORDEM // CONTÁGIO SIMBÓLICO',
+          description: 'TODA LEI POSSUI UMA VERSÃO OFICIAL E UMA VERDADE SOBREVIVENTE.',
+          code: 'VISUAL 03 // AX8AHNQ'
+        },
+        base: {
+          title: 'O NINHO DE CINZAS',
+          tag: 'BASE DEFENSORES // PORTÕES ABERTOS',
+          status: 'ABRIGO // RETORNO',
+          description: 'A FORNALHA JÁ POSSUÍA FORTALEZAS DEMAIS E LUGARES SEGUROS DE MENOS.',
+          code: 'VISUAL 04 // ZNKST5J'
+        }
+      };
+
+      function setChapter(id, focusReader = false) {
+        const target = document.getElementById(`chapter-${id}`);
+        if (!target) return;
+
+        chapters.forEach(chapter => {
+          chapter.classList.toggle('is-active', chapter === target);
+          if (chapter === target) chapter.scrollTop = 0;
+        });
+
+        chapterButtons.forEach(button => {
+          const active = button.dataset.chapter === id;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-selected', String(active));
+        });
+
+        thumbs.forEach(button => button.classList.toggle('is-active', button.dataset.chapter === id));
+        visualImages.forEach(image => image.classList.toggle('is-active', image.dataset.visualImage === id));
+
+        const data = meta[id];
+        visualTitle.textContent = data.title;
+        visualTag.textContent = data.tag;
+        visualStatus.textContent = data.status;
+        visualDescription.textContent = data.description;
+        visualCode.textContent = data.code;
+        readerProgress.style.height = '0%';
+
+        if (focusReader && window.innerWidth <= 1050) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      [...chapterButtons, ...thumbs].forEach(button => {
+        button.addEventListener('click', () => setChapter(button.dataset.chapter, button.classList.contains('thumb')));
+      });
+
+      chapters.forEach(chapter => {
+        chapter.addEventListener('scroll', () => {
+          if (!chapter.classList.contains('is-active')) return;
+          const max = chapter.scrollHeight - chapter.clientHeight;
+          readerProgress.style.height = `${max > 0 ? Math.min(100, chapter.scrollTop / max * 100) : 0}%`;
+        }, { passive: true });
+      });
+
+      document.querySelectorAll('.law-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const item = trigger.closest('.law-item');
+          const open = item.classList.toggle('is-open');
+          trigger.setAttribute('aria-expanded', String(open));
+        });
+      });
+
+      const sectorButtons = [...document.querySelectorAll('.sector-button')];
+      const sectorPanels = [...document.querySelectorAll('[data-sector-panel]')];
+      sectorButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const id = button.dataset.sector;
+          sectorButtons.forEach(item => {
+            const active = item === button;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-selected', String(active));
+          });
+          sectorPanels.forEach(panel => panel.classList.toggle('is-active', panel.dataset.sectorPanel === id));
+        });
+      });
+
+      const setMenu = (open) => {
+        sidebar.classList.toggle('is-open', open);
+        mobileTrigger.classList.toggle('is-open', open);
+        overlay.classList.toggle('is-visible', open);
+        mobileTrigger.setAttribute('aria-expanded', String(open));
+        mobileTrigger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      };
+
+      mobileTrigger.addEventListener('click', () => setMenu(!sidebar.classList.contains('is-open')));
+      overlay.addEventListener('click', () => setMenu(false));
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') setMenu(false); });
+      sidebar.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+
+      siteLogo.addEventListener('error', () => {
+        siteLogo.style.display = 'none';
+        brandFallback.style.display = 'block';
+      });
+
+      const clock = document.getElementById('clock');
+      const updateClock = () => {
+        const time = new Intl.DateTimeFormat('pt-BR', {
+          timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }).format(new Date());
+        clock.textContent = `${time} // BRT`;
+      };
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      let raf = null;
+      window.addEventListener('pointermove', event => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 900) return;
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const x = (event.clientX / innerWidth - .5) * 10;
+          const y = (event.clientY / innerHeight - .5) * 8;
+          document.documentElement.style.setProperty('--pointer-x', `${x}px`);
+          document.documentElement.style.setProperty('--pointer-y', `${y}px`);
+          document.querySelectorAll('.visual-image.is-active').forEach(img => {
+            img.style.transform = `translate3d(${x * -.35}px,${y * -.35}px,0) scale(1.025)`;
+          });
+        });
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>
